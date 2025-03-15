@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Interativo</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .container { max-width: 600px; margin: auto; padding: 20px; }
+        .question { margin-bottom: 10px; font-weight: bold; }
+        .options { list-style-type: none; padding: 0; }
+        .options li { margin: 5px 0; cursor: pointer; padding: 10px; border: 1px solid #ccc; }
+        .correct { background-color: lightgreen; }
+        .wrong { background-color: lightcoral; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quiz Interativo</h1>
+        <div id="quiz"></div>
+        <button onclick="nextQuestion()">Próxima Pergunta</button>
+    </div>
+
+    <script>
+        const questions = [
+            {   
+                question: "Qual é o principal órgão responsável pelas trocas gasosas nas plantas?",
+                options: ["Raiz", "Estômatos", "Floema", "Xilema"],
+                answer: "Estômatos"
+            },
+            {
+                question: "Qual é a equação geral da respiração celular?",
+                options: ["C6H12O6 + O2 → CO2 + H2O + ATP", "H2O + CO2 → C6H12O6 + O2", "O2 + H2 → H2O", "ATP → ADP + P"],
+                answer: "C6H12O6 + O2 → CO2 + H2O + ATP"
+            },
+            {
+                question: "Os mamíferos possuem circulação dupla e completa.",
+                options: ["Verdadeiro", "Falso"],
+                answer: "Verdadeiro"
+            }
+        ];
+        
+        let currentQuestion = 0;
+
+        function loadQuestion() {
+            const quizDiv = document.getElementById("quiz");
+            quizDiv.innerHTML = "";
+            
+            let q = questions[currentQuestion];
+            let questionElement = document.createElement("div");
+            questionElement.className = "question";
+            questionElement.innerText = q.question;
+            quizDiv.appendChild(questionElement);
+            
+            let ul = document.createElement("ul");
+            ul.className = "options";
+            q.options.forEach(option => {
+                let li = document.createElement("li");
+                li.innerText = option;
+                li.onclick = function() { checkAnswer(li, q.answer); };
+                ul.appendChild(li);
+            });
+            quizDiv.appendChild(ul);
+        }
+
+        function checkAnswer(element, answer) {
+            if (element.innerText === answer) {
+                element.classList.add("correct");
+            } else {
+                element.classList.add("wrong");
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            } else {
+                alert("Quiz finalizado!");
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
